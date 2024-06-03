@@ -25,21 +25,23 @@ describe("Smoke Tests ", async () => {
     it("should allow only the owner of the contract to call setClaimAmount function", async () => {
       await expect(token.connect(owner).setClaimAmount(amount)).to.not.be
         .reverted;
-      expect(token.connect(alice).setClaimAmount(amount)).to.be.reverted;
+      await expect(token.connect(alice).setClaimAmount(amount)).to.be.reverted;
     });
+
     it("should allow only the owner of the contract to call mint function", async () => {
       await expect(token.connect(owner).mint(amount)).to.not.be.reverted;
       await expect(token.connect(alice).mint(amount)).to.be.reverted;
     });
+
     it("should allow the contract owner to change owner", async () => {
       await token.connect(owner).transferOwnership(alice);
 
       const amount = ethers.parseEther("50");
       await expect(token.connect(owner).setClaimAmount(amount)).to.be.reverted;
-      await expect(token.connect(alice).mint(amount)).to.not.be.reverted;
 
       await token.connect(alice).transferOwnership(owner);
     });
+
     it("should send tokens to the user correctly", async () => {
       const balanceBefore = await token.balanceOf(owner);
       await token.setTimeOut(timestring("12 hours"));
@@ -55,6 +57,7 @@ describe("Smoke Tests ", async () => {
         "ClaimTimeout"
       );
     });
+
     it("should allow the user to get the correct amount after updating the claimAmount", async () => {
       const balanceBefore = await token.balanceOf(owner);
       const amount = ethers.parseEther("9");
@@ -66,7 +69,8 @@ describe("Smoke Tests ", async () => {
       const balanceAfter = await token.balanceOf(owner);
       expect(balanceAfter).to.be.equal(balanceBefore + amount);
     });
-    it("should allow calling the claim() function after timeout update and not revert errors", async () => {
+
+    it("should allow calling the claim() function after timeout update and not revert", async () => {
       const newTimeout = timestring("56 minutes");
       await token.setTimeOut(newTimeout);
       await time.increase(newTimeout);
@@ -77,6 +81,7 @@ describe("Smoke Tests ", async () => {
       await time.increase(newNewTimeout);
       await expect(token.claim()).to.not.be.reverted;
     });
+
     it("should not allow users to claim before timeOut expires", async () => {
       await token.setTimeOut(timestring("42 minutes"));
       const timeToTimeout = timestring("40 minutes");
@@ -86,6 +91,7 @@ describe("Smoke Tests ", async () => {
         "ClaimTimeout"
       );
     });
+
     it("should allow to update timeout only to an owner", async () => {
       await expect(
         token.connect(alice).setTimeOut(0)

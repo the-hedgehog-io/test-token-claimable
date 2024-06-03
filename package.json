@@ -1,0 +1,15 @@
+{
+  "name": "test-token-claimable",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.4"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "@types/timestring": "^6.0.5",
+    "dotenv": "^16.4.5",
+    "hardhat-abi-exporter": "^2.10.1",
+    "hardhat-deploy": "^0.12.4",
+    "timestring": "^7.0.0"
+  }
+}

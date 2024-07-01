@@ -35,6 +35,9 @@ const config: HardhatUserConfig = {
       accounts: newAccounts,
     },
   },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
 
   paths: {
     deployments: `deployments/${packageJson.version}`,

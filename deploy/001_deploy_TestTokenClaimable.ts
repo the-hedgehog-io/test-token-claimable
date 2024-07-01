@@ -9,7 +9,7 @@ const runDeploy: DeployFunction = async ({
   await deploy("TestTokenClaimable", {
     from: deployer,
     log: true,
-    args: ["Mon3Jun1245", "1245"],
+    args: ["T-WstETH", "TWstETH"],
   });
 };
 
